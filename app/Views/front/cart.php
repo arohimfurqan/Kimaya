@@ -31,6 +31,7 @@
                   <thead>
                     <tr>
                       <th>Product</th>
+                      <th>Toko</th>
                       <th class="text-center">Qty</th>
                       <th class="text-right">Price</th>
                       <th class="text-right">Sub Total</th>
@@ -61,6 +62,9 @@
                           ?>
                           <!--end::Symbol-->
                           <a href="#" class="text-dark text-hover-primary"><?= $row->nama_produk ?></a>
+                        </td>
+                        <td class=" align-middle">
+                          <?= $row->nama ?>
                         </td>
                         <td class="text-center align-middle">
                           <?php

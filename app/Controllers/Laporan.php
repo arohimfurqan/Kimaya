@@ -38,7 +38,8 @@ class Laporan extends BaseController
 
 
     $data = [
-      'produk' =>  $this->Model_produk->join('brand', 'id_brand=brand_id')->join('kategori', 'id_kategori=kategori_id')->findAll()
+      'produk' =>  $this->Model_produk->join('brand', 'id_brand=brand_id')->join('kategori', 'id_kategori=kategori_id')->where('produk_user_id', session('id'))->findAll(),
+      'biodata' => $this->Model_biodata->where('user_id', session('id'))->first()
     ];
 
     // $template = [
@@ -60,7 +61,7 @@ class Laporan extends BaseController
     if ($this->request->getMethod() === 'post') {
       $tahun =  $this->request->getPost('tahun');
 
-      $cart = $this->Model_keranjang->like('tanggal_pesan', $tahun)->where('status', 'Lunas')->findall();
+      $cart = $this->Model_keranjang->like('tanggal_pesan', $tahun)->where('status', 'Lunas')->where('penjual_id', session('id'))->findall();
 
       // print_r($cart);
       // die;
@@ -69,7 +70,7 @@ class Laporan extends BaseController
 
       // $cariuserbio2 = $this->Model_user->select('biodata.*,users.*,tb_provinsi.nama as nama_provinsi,tb_kota_kabupaten.nama as nama_kota,tb_provinsi.id as id_provinsi,tb_kota_kabupaten.id as id_kota,users.nama as nama_user')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('id_user', $cart2->user_id)->first();
 
-      $dt = ['cart' => $cart, 'tahun' => $tahun];
+      $dt = ['cart' => $cart, 'tahun' => $tahun, 'biodata' => $this->Model_biodata->where('user_id', session('id'))->first()];
 
       return view('laporan/L_order', $dt);
     }
@@ -93,7 +94,7 @@ class Laporan extends BaseController
     if ($this->request->getMethod() === 'post') {
       $tahun =  $this->request->getPost('tahun');
 
-      $cart = $this->Model_keranjang->like('tanggal_pesan', $tahun)->where('status', 'Pengiriman')->findall();
+      $cart = $this->Model_keranjang->like('tanggal_pesan', $tahun)->where('status', 'Pengiriman')->where('penjual_id', session('id'))->findall();
 
       // print_r($cart);
       // die;
@@ -102,7 +103,7 @@ class Laporan extends BaseController
 
       // $cariuserbio2 = $this->Model_user->select('biodata.*,users.*,tb_provinsi.nama as nama_provinsi,tb_kota_kabupaten.nama as nama_kota,tb_provinsi.id as id_provinsi,tb_kota_kabupaten.id as id_kota,users.nama as nama_user')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('id_user', $cart2->user_id)->first();
 
-      $dt = ['cart' => $cart, 'tahun' => $tahun];
+      $dt = ['cart' => $cart, 'tahun' => $tahun, 'biodata' => $this->Model_biodata->where('user_id', session('id'))->first()];
 
       return view('laporan/L_terkirim', $dt);
     }

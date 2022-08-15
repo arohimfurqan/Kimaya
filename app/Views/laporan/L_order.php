@@ -37,9 +37,12 @@
 
     </div>
     <div class="col-md-11 col-sm-10 text-center">
-      <h3>Kimaya</h3>
+      <h3><?= session('nama') ?></h3>
+      <?php
+
+      ?>
       <!-- <h3>Satuan Polisi Pamong Praja</h3> -->
-      <h4>&nbsp;&nbsp;&nbsp;Perumahan Hari Sembada Indah Blok C No. 2, Parupuk Tabing, Koto Tangah, Padang City, West Sumatra 25586, Indonesia Telp. 0852-7102-2991
+      <h4>&nbsp;&nbsp;&nbsp;<?= $biodata->alamat ?>, Telp. <?= $biodata->no_hp == '' ? '-' : $biodata->no_hp ?>
       </h4>
     </div>
     <!-- <div class="col-md-1 col-sm-2 text-right"> -->

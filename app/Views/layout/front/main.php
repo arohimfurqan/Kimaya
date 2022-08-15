@@ -139,7 +139,7 @@ $db = Config\database::connect();
                           </svg>
                           <!--end::Svg Icon-->
                           <?php
-                          $countcart = $db->table('keranjang')->join('keranjang_produk', 'id_keranjang=keranjang_id')->where('status', 'Keranjang')->countAllResults();
+                          $countcart = $db->table('keranjang')->join('keranjang_produk', 'id_keranjang=keranjang_id')->where('status', 'Keranjang')->where('user_id', session('id2'))->countAllResults();
                           ?>
                           <label for="" style="color: orange;font-size:19px"><?= $countcart ?></label>
 
@@ -363,7 +363,7 @@ $db = Config\database::connect();
               </div>
             </div>
             <?php
-            $countbelumbayar = $db->table('keranjang')->where('status', 'Menunggu Pembayaran')->countAllResults();
+            $countbelumbayar = $db->table('keranjang')->where('status', 'Menunggu Pembayaran')->where('user_id', session('id2'))->countAllResults();
             ?>
             <div class="navi-text">
               <div class="font-weight-bold">Belum Bayar</div>
@@ -392,7 +392,7 @@ $db = Config\database::connect();
               </div>
             </div>
             <?php
-            $countlunas = $db->table('keranjang')->where('status', 'Lunas')->countAllResults();
+            $countlunas = $db->table('keranjang')->where('status', 'Lunas')->where('user_id', session('id2'))->countAllResults();
             ?>
             <div class="navi-text">
               <div class="font-weight-bold">Dikemas</div>
@@ -419,7 +419,7 @@ $db = Config\database::connect();
               </div>
             </div>
             <?php
-            $countpengiriman = $db->table('keranjang')->where('status', 'Pengiriman')->countAllResults();
+            $countpengiriman = $db->table('keranjang')->where('status', 'Pengiriman')->where('user_id', session('id2'))->countAllResults();
             ?>
             <div class="navi-text">
               <div class="font-weight-bold">Dikirim</div>

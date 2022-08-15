@@ -12,7 +12,7 @@ class M_keranjang extends Model
   protected $primaryKey = 'id_keranjang';
   protected $returnType = 'object';
   protected $useSoftDeletes = false;
-  protected $allowedFields = ['user_id', 'status', 'tanggal_pesan', 'tanggal_pengiriman', 'tanggal_terima', 'tanggal_pembayaran', 'bukti_pembayaran'];
+  protected $allowedFields = ['user_id', 'status', 'tanggal_pesan', 'tanggal_pengiriman', 'tanggal_terima', 'tanggal_pembayaran', 'bukti_pembayaran', 'penjual_id'];
   protected $useAutoIncrement = true;
   protected $useTimestamps = false;
   protected $createdField  = 'created_at';

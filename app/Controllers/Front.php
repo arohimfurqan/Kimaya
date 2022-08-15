@@ -182,30 +182,44 @@ class Front extends BaseController
 
 
     $carikeranjanglama = $this->Model_keranjang->where(['user_id' => $iduser, 'status' => 'Keranjang'])->first();
+    $cariproduk = $this->Model_produk->where(['id_produk' => $id])->first();
+
+
 
     if ($carikeranjanglama) {
-      $cariproduk = $this->Model_produk->where('id_produk', $id)->first();
-      $keranjang_produk = [
-        'keranjang_id' => $carikeranjanglama->id_keranjang,
-        'produk_id' => $id,
-        'jumlah' => $jumlah,
-        'harga_keranjang' => $cariproduk->harga,
-      ];
-      $carikeprolama = $this->Model_keranjang_produk->where(['keranjang_id' => $carikeranjanglama->id_keranjang, 'produk_id' => $id])->first();
-      if ($carikeprolama) {
-        $this->Model_keranjang_produk->update($carikeprolama->produk_keranjang_id, ['jumlah' => $jumlah + $carikeprolama->jumlah]);
-      } else {
-        $this->Model_keranjang_produk->save($keranjang_produk);
-      }
+      // echo $carikeranjanglama->id_keranjang;
+      // echo $cariproduk->produk_user_id;
+      // die;
+      if ($carikeranjanglama->penjual_id == $cariproduk->produk_user_id) {
+        $cariproduk = $this->Model_produk->where('id_produk', $id)->first();
+        $keranjang_produk = [
+          'keranjang_id' => $carikeranjanglama->id_keranjang,
+          'produk_id' => $id,
+          'jumlah' => $jumlah,
+          'harga_keranjang' => $cariproduk->harga,
+        ];
+        $carikeprolama = $this->Model_keranjang_produk->where(['keranjang_id' => $carikeranjanglama->id_keranjang, 'produk_id' => $id])->first();
+        if ($carikeprolama) {
+          $this->Model_keranjang_produk->update($carikeprolama->produk_keranjang_id, ['jumlah' => $jumlah + $carikeprolama->jumlah]);
+        } else {
+          $this->Model_keranjang_produk->save($keranjang_produk);
+        }
 
-      echo ("<script>
+        echo ("<script>
         window.alert('Berhasil menambahkan ke keranjang');
         window.history.back();
         </script>");
+      } else {
+        echo ("<script>
+        window.alert('Toko dikeranjang anda berbeda dengan yang akan di tambahkan silahkan hapus barang tersebut!!!');
+        window.history.back();
+        </script>");
+      }
     } else {
       $keranjang = [
         'user_id' => $iduser,
-        'status' => 'Keranjang'
+        'status' => 'Keranjang',
+        'penjual_id' => $cariproduk->produk_user_id
       ];
 
       if ($this->Model_keranjang->save($keranjang)) {
@@ -230,7 +244,7 @@ class Front extends BaseController
 
   public function cart()
   {
-    $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
+    $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->join('users', 'produk_user_id=id_user')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
 
     // print_r($cart);
     // die;

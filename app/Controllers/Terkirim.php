@@ -35,7 +35,7 @@ class Terkirim extends BaseController
 
   public function index()
   {
-    $cariorder = $this->Model_keranjang->select('keranjang.*,keranjang_produk.*,produk.*, SUM(jumlah * harga_keranjang) AS total')->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->where('status', 'Pengiriman')->groupBy('id_keranjang')->findAll();
+    $cariorder = $this->Model_keranjang->select('keranjang.*,keranjang_produk.*,produk.*, SUM(jumlah * harga_keranjang) AS total')->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->where('status', 'Pengiriman')->where('penjual_id', session('id'))->groupBy('id_keranjang')->findAll();
     // print_r($cariorder);
     // die;
     $data = ['data' => $cariorder];
