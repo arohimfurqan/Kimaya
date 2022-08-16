@@ -28,7 +28,7 @@ class Brand extends BaseController
         // print_r($db->table('brand')->get()->getResult());
         // die;
         $data = [
-            'brand' =>  $this->Model->findAll()
+            'brand' =>  $this->Model->where('user_id', session('id'))->findAll()
         ];
         $template = [
             'isi' => view('brand/index', $data)

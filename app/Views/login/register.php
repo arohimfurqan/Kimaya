@@ -5,24 +5,44 @@
       <a href="<?= BASE ?>" class="h1"><b>KIMAYA</b></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Register untuk penjual</p>
 
-      <form action="<?= BASE ?>/login" method="post">
+      <form action="<?= BASE ?>/login/register" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Username" name="username">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
+          <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
         </div>
+
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
+          <input type="email" class="form-control" placeholder="Email" name="email">
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Alamat" name="alamat">
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="No Hp" name="nohp">
+        </div>
+
+        <div class="input-group mb-3">
+          <select id="provinsi" name="provinsi" class="form-control  select2" required>
+            <option value="" selected>Pilih Provinsi</option>
+          </select>
+
+        </div>
+
+        <div class="input-group mb-3">
+          <select id="kota" name="kota" class="form-control  select2" required>
+            <option value="" selected>Pilih kota</option>
+          </select>
+
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control " placeholder="Password" required>
+
+
+
         </div>
         <div class="row">
           <div class="col-8">
@@ -35,7 +55,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
           </div>
           <!-- /.col -->
         </div>
@@ -51,11 +71,9 @@
       </div> -->
       <!-- /.social-auth-links -->
       <p class="mb-1">
-        <a href="../public/login/register">Register</a>
+        <a href="../login">login</a>
       </p>
-      <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
-      </p>
+
 
       <!-- <p class="mb-0">
         <a href="register.html" class="text-center">Register a new membership</a>

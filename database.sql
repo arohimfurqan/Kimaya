@@ -36,11 +36,11 @@ CREATE TABLE `biodata` (
   CONSTRAINT `FK_biodata` FOREIGN KEY (`provinsi_id`) REFERENCES `tb_provinsi` (`id`),
   CONSTRAINT `FK_biodata2` FOREIGN KEY (`kota_id`) REFERENCES `tb_kota_kabupaten` (`id`),
   CONSTRAINT `FK_biodata7` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `biodata` */
 
-insert  into `biodata`(`id_biodata`,`user_id`,`alamat`,`no_hp`,`provinsi_id`,`kota_id`,`jenis_kelamin`,`tanggal_lahir`) values (1,2,'veteran','123456789012',13,1371,NULL,NULL),(2,3,NULL,NULL,NULL,NULL,NULL,NULL),(3,4,'jalan veteran no 16 b',NULL,13,1371,NULL,NULL),(4,1,'www',NULL,13,1371,NULL,NULL);
+insert  into `biodata`(`id_biodata`,`user_id`,`alamat`,`no_hp`,`provinsi_id`,`kota_id`,`jenis_kelamin`,`tanggal_lahir`) values (1,2,'veteran','123456789012',13,1371,NULL,NULL),(2,3,NULL,NULL,NULL,NULL,NULL,NULL),(3,4,'jalan veteran no 16 b',NULL,13,1371,NULL,NULL),(4,1,'www',NULL,13,1371,NULL,NULL),(5,6,'jalan veteran',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `brand` */
 
@@ -55,7 +55,7 @@ CREATE TABLE `brand` (
 
 /*Data for the table `brand` */
 
-insert  into `brand`(`id_brand`,`nama_brand`,`user_id`) values (2,'Adidas 2',NULL);
+insert  into `brand`(`id_brand`,`nama_brand`,`user_id`) values (2,'Adidas 2',4);
 
 /*Table structure for table `foto_lain_produk` */
 
@@ -206,11 +206,11 @@ CREATE TABLE `users` (
   `role` varchar(25) NOT NULL,
   `foto_profile` text DEFAULT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id_user`,`username`,`nama`,`password`,`email`,`role`,`foto_profile`) values (1,'superadmin','Super Admin','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim98@gmail.com','superadmin',NULL),(2,'rohim@gmail.com','arohim furqan','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim@gmail.com','Customer',NULL),(3,'lovela97famazera@gmail.com','lovela','$2y$10$tJEBb6BNmj1fG6mNquWHie8VhoAIVjjBNr6ent3nLxejwoaP9EoUG','lovela97famazera@gmail.com','Customer',NULL),(4,'toko1','Toko 1','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','him@gmail.com','admin',NULL),(5,'toko2','Toko 2','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','toko2@gmail.com','admin',NULL);
+insert  into `users`(`id_user`,`username`,`nama`,`password`,`email`,`role`,`foto_profile`) values (1,'superadmin','Super Admin','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim98@gmail.com','superadmin',NULL),(2,'rohim@gmail.com','arohim furqan','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim@gmail.com','Customer',NULL),(3,'lovela97famazera@gmail.com','lovela','$2y$10$tJEBb6BNmj1fG6mNquWHie8VhoAIVjjBNr6ent3nLxejwoaP9EoUG','lovela97famazera@gmail.com','Customer',NULL),(4,'toko1','Toko 1','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','him@gmail.com','admin',NULL),(5,'toko2','Toko 2','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','toko2@gmail.com','admin',NULL),(6,'argenesia@gmail.com','argenesia','$2y$10$/iXCTxKi1NXqMpm35b.2W.n/Pi046pT4WhVyq4EjpKnwOgIq4nAj.','argenesia@gmail.com','admin',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

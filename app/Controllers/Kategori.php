@@ -28,7 +28,7 @@ class Kategori extends BaseController
         // print_r($db->table('kategori')->get()->getResult());
         // die;
         $data = [
-            'kategori' =>  $this->Model->findAll()
+            'kategori' =>  $this->Model->where('user_id', session('id'))->findAll()
         ];
         $template = [
             'isi' => view('kategori/index', $data)
