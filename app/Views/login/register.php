@@ -2,12 +2,12 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="<?= BASE ?>" class="h1"><b>KIMAYA</b></a>
+      <a href="<?= BASE ?>" class="h1"><b>Piaman Market</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Register untuk penjual</p>
 
-      <form action="<?= BASE ?>/login/register" method="post">
+      <form action="<?= BASE ?>/login/register" method="post" enctype="multipart/form-data">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
         </div>
@@ -37,8 +37,17 @@
           </select>
 
         </div>
-
+        <div class="input-group mb-3"> KTP (jpeg,jpg,png) &nbsp; &nbsp; &nbsp; &nbsp;
+          <input type="file" placeholder="Foto KTP" name="ktp" accept="image/*" required>
+        </div>
+        <div class="input-group mb-3"> SIUP (pdf) &nbsp; &nbsp; &nbsp;
+          <input type="file" placeholder="SIUP" name="siup" accept=".pdf" required>
+        </div>
+        <div class="input-group mb-3"> SITU (pdf) &nbsp; &nbsp; &nbsp;
+          <input type="file" placeholder="SITU" name="situ" accept=".pdf" required>
+        </div>
         <div class="input-group mb-3">
+
           <input type="password" name="password" class="form-control " placeholder="Password" required>
 
 

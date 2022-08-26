@@ -64,7 +64,7 @@
 														<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 															<div class="col-xl-12 col-xxl-7">
 																<!--begin: Wizard Form-->
-																<form class="form mt-0 mt-lg-10" id="kt_form" method="post" action="<?= BASE ?>/front/purchase">
+																<form class="form mt-0 mt-lg-10" id="kt_form" method="post" action="<?= BASE ?>/front/purchase/<?= $keranjang ?>">
 
 																	<input type="hidden" name="id_keranjang" value="<?= $cart2->id_keranjang ?>">
 

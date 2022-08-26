@@ -13,7 +13,7 @@ if (!session()->has('logged_in')) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kimaya</title>
+    <title>Piaman Market</title>
 
     <!-- Google Font: Source Sans Pro -->
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
@@ -49,7 +49,7 @@ if (!session()->has('logged_in')) {
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="<?= BASE ?>/assets/img/logo.jpeg" alt="AdminLTELogo" height="150" width="150">
+            <img class="animation__shake" src="<?= BASE ?>/assets/img/logo.png" alt="AdminLTELogo" height="150" width="150">
         </div>
 
         <!-- Navbar -->
@@ -116,7 +116,7 @@ if (!session()->has('logged_in')) {
             <!-- Brand Logo -->
             <a href="<?= BASE ?>" class="brand-link text-center ">
                 <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-                <span class="brand-text font-weight-light">Kimaya</span>
+                <span class="brand-text font-weight-light">Piaman Market</span>
             </a>
 
 
@@ -125,7 +125,7 @@ if (!session()->has('logged_in')) {
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="<?= BASE ?>/assets/img/logo.jpeg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?= BASE ?>/assets/img/logo.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= session('nama') ?></a>

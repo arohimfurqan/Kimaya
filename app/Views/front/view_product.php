@@ -18,6 +18,8 @@
                       <div class="card ">
 
                         <?php
+                        $db = Config\database::connect();
+
                         if ($produk->foto_produk) { ?>
 
                           <div class="demo">
@@ -82,7 +84,14 @@
                         <div class="col-6 col-md-4">
                           <div class="mb-8 d-flex flex-column">
                             <span class="text-dark font-weight-bold mb-4">Sold Items</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">-</span>
+                            <?php
+                            $sold = $db->table('keranjang_produk')->join('keranjang', 'keranjang_id=id_keranjang')->where('status', 'Pengiriman')->orWhere('status', 'Dikembalikan')->where('produk_id', $produk->id_produk)->get()->getResult();
+                            $jm = 0;
+                            foreach ($sold as $s) {
+                              @$jm = @$jm + $s->jumlah;
+                            }
+                            ?>
+                            <span class="text-muted font-weight-bolder font-size-lg"><?= @$jm ?></span>
                           </div>
                         </div>
                         <div class="col-6 col-md-4">

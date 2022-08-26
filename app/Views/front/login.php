@@ -7,10 +7,10 @@
         <div class="login-wrapper">
           <!--begin:Aside Content-->
           <div class="text-dark-75">
-            <a href="#">
-              <img src="<?= BASE  ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" class="max-h-150px" alt="" />
+            <a href="<?= BASE ?>/front">
+              <img src="<?= BASE  ?>/front_assets/custom/apps/ecommerce/img/logo.png" class="max-h-150px" alt="" />
             </a>
-            <h3 class="mb-8 mt-22 font-weight-bold">KIMAYA</h3>
+            <h3 class="mb-8 mt-22 font-weight-bold">Piaman Market</h3>
             <p class="mb-15 text-muted font-weight-bold">Selamat Datang Di Website Kami.</p>
             <button type="button" id="kt_login_signup" class="btn btn-outline-primary btn-pill py-4 px-9 font-weight-bold">Get An Account</button>
           </div>

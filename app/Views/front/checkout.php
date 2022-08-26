@@ -64,7 +64,7 @@
 														<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 															<div class="col-xl-12 col-xxl-7">
 																<!--begin: Wizard Form-->
-																<form class="form mt-0 mt-lg-10" id="kt_form" method="post" action="<?= BASE ?>/front/checkout">
+																<form class="form mt-0 mt-lg-10" id="kt_form" method="post" action="<?= BASE ?>/front/checkout/<?= $keranjang ?>">
 																	<input type="hidden" name="id_biodata" value="<?= $biodata->id_biodata ?>">
 																	<!--begin: Wizard Step 1-->
 																	<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">

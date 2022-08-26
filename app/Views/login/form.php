@@ -2,7 +2,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="<?= BASE ?>" class="h1"><b>KIMAYA</b></a>
+      <a href="<?= BASE ?>" class="h1"><b>Piaman Market</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>

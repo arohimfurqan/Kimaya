@@ -52,6 +52,7 @@ class Produk extends BaseController
     }
     public function add()
     {
+        // echo session('id');die;
         $validasi = [];
         if ($this->request->getMethod() === 'post') {
             $fotoutama = $this->request->getFile('foto_produk');
@@ -65,7 +66,8 @@ class Produk extends BaseController
                 'kategori_id' => $this->request->getPost('kategori'),
                 'status_produk' => $this->request->getPost('status'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
-                'foto_produk' => $foto1
+                'foto_produk' => $foto1,
+                'produk_user_id' => session('id')
             ];
             // if ($this->request->getFileMultiple('foto_lainnya')) {
             //     print_r($this->request->getFileMultiple('foto_lainnya'));

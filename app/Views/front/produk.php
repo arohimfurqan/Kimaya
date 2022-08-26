@@ -42,7 +42,7 @@
 											<div class="mb-11">
 												<!--begin::Heading-->
 												<div class="d-flex justify-content-between align-items-center mb-7">
-													<h2 class="font-weight-bolder text-dark font-size-h3 mb-0">Product</h2>
+													<h2 class="font-weight-bolder text-dark font-size-h3 mb-0">UMKM</h2>
 													<!-- <a href="#" class="btn btn-light-primary btn-sm font-weight-bolder">View All</a> -->
 												</div>
 												<!--end::Heading-->
@@ -50,7 +50,7 @@
 												<div class="row">
 													<!--begin::Product-->
 													<?php
-													foreach ($produk as $prd) :
+													foreach ($user as $prd) :
 													?>
 														<div class="col-md-3">
 															<!--begin::Card-->
@@ -59,27 +59,22 @@
 																	<!--begin::Image-->
 																	<div class="overlay">
 																		<div class="overlay-wrapper rounded bg-light text-center">
-																			<?php
-																			if ($prd->foto_produk) { ?>
-																				<img src="<?= BASE ?>/uploads/<?= $prd->foto_produk ?>" alt="" class="mw-100 w-200px" height="150px" />
-																			<?php
-																			} else {
-																			?>
-																				<img src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/no-image.png" alt="" class="mw-100 w-200px" height="150px" />
-																			<?php }
-																			?>
+
+
+																			<img src="<?= BASE ?>/uploads/user.jpg" alt="" class="mw-100 w-150px" height="150px" />
+
 
 																		</div>
 																		<div class="overlay-layer">
-																			<a href="<?= BASE ?>/front/view_product/<?= $prd->id_produk ?>" class="btn font-weight-bolder btn-sm btn-primary mr-2">Quick View</a>
+																			<a href="<?= BASE ?>/front/view_toko/<?= $prd->id_user ?>" class="btn font-weight-bolder btn-sm btn-primary mr-2">Quick View</a>
 																			<!-- <a href="#" class="btn font-weight-bolder btn-sm btn-light-primary">Purchase</a> -->
 																		</div>
 																	</div>
 																	<!--end::Image-->
 																	<!--begin::Details-->
 																	<div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
-																		<a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1"><?= $prd->nama_produk ?></a>
-																		<span class="font-size-lg"><?= substr(strip_tags($prd->deskripsi), 0, 100) ?>...</span>
+																		<a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1"><?= $prd->nama ?></a>
+																		<!-- <span class="font-size-lg">...</span> -->
 																	</div>
 																	<!--end::Details-->
 																</div>

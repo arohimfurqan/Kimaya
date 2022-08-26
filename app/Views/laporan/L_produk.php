@@ -32,7 +32,7 @@
   <div class="row">
     <div class="col-md-1 col-sm-2 text-left">
 
-      <img src="<?= BASE ?>/assets/img/logo.jpeg" alt="" style="width:120px;height:120px;">
+      <img src="<?= BASE ?>/assets/img/logo.png" alt="" style="width:120px;height:120px;">
 
     </div>
     <div class="col-md-11 col-sm-10 text-center">

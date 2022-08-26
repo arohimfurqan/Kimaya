@@ -12,7 +12,7 @@ class M_brand extends Model
     protected $primaryKey = 'id_brand';
     protected $returnType = 'object';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama_brand'];
+    protected $allowedFields = ['nama_brand','user_id'];
     protected $useAutoIncrement = true;
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';

@@ -38,6 +38,23 @@
 
 						</li>
 
+
+						<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+							<a href="javascript:;" class="menu-link menu-toggle">
+								<span class="menu-text">Daftar Mitra</span>
+								<i class="menu-arrow"></i>
+							</a>
+							<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+								<ul class="menu-subnav">
+									<li class="menu-item " aria-haspopup="true">
+										<a href="<?= BASE ?>/login" class="menu-link">
+											<span class="menu-text">Login / Register UMKM</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+
 					</ul>
 					<!--end::Header Nav-->
 				</div>

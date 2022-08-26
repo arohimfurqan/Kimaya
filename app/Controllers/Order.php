@@ -74,6 +74,17 @@ class Order extends BaseController
 
     $this->Model_keranjang->update($id, ['status' => 'Pengiriman', 'tanggal_pengiriman' => date('Y-m-d h:i:s')]);
 
+    $cariproduk = $this->Model_keranjang_produk->where('keranjang_id', $id)->findAll();
+    if ($cariproduk) {
+      foreach ($cariproduk as $crp) {
+        $cariprodud = $this->Model_produk->where('id_produk', $crp->produk_id)->first();
+        if ($cariprodud) {
+          $qtybaru = $cariprodud->qty - $crp->jumlah;
+          $this->Model_produk->update($crp->produk_id, ['qty' => $qtybaru]);
+        }
+      }
+    }
+
     return  redirect()->back();
   }
 }

@@ -21,7 +21,7 @@ $db = Config\database::connect();
 <head>
 
   <meta charset="utf-8" />
-  <title>Kimaya</title>
+  <title>Piaman Market</title>
   <meta name="description" content="ECommerce Dashboard" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -35,7 +35,7 @@ $db = Config\database::connect();
   <!--end::Global Theme Styles-->
   <!--begin::Layout Themes(used by all pages)-->
   <!--end::Layout Themes-->
-  <link rel="shortcut icon" href="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" />
+  <link rel="shortcut icon" href="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.png" />
   <link rel='stylesheet' href='<?= BASE ?>/assets/lightslider.css'>
   <link href="<?= BASE ?>/front_assets/assets/css/pages/wizard/wizard-4.css" rel="stylesheet" type="text/css" />
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -67,7 +67,7 @@ $db = Config\database::connect();
   <div id="kt_header_mobile" class="header-mobile">
     <!--begin::Logo-->
     <a href="index.html">
-      <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" class="logo-default max-h-30px" />
+      <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.png" class="logo-default max-h-30px" />
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->
@@ -106,8 +106,8 @@ $db = Config\database::connect();
               <!--begin::Header Logo-->
               <div class="header-logo">
                 <a href="index.html">
-                  <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" class="logo-default max-h-100px" />
-                  <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" class="logo-sticky max-h-100px" />
+                  <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.png" class="logo-default max-h-100px" />
+                  <img alt="Logo" src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.png" class="logo-sticky max-h-100px" />
                 </a>
               </div>
               <!--end::Header Logo-->
@@ -215,7 +215,7 @@ $db = Config\database::connect();
               <div class="col-lg-3">
                 <div class="first-item">
                   <div class="logo">
-                    <img src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.jpeg" alt="hexashop ecommerce templatemo" width="100%" height="200px">
+                    <img src="<?= BASE ?>/front_assets/custom/apps/ecommerce/img/logo.png" alt="hexashop ecommerce templatemo" width="100%" height="200px">
                   </div>
                   <ul style="color: rgb(255, 255, 255);">
                     <li>16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</li>
@@ -253,7 +253,7 @@ $db = Config\database::connect();
               <div class="col-lg-12">
                 <div class="under-footer text-center">
                   <hr>
-                  <p style="color: rgb(255, 255, 255);">Copyright © 2022 Kimaya.
+                  <p style="color: rgb(255, 255, 255);">Copyright © 2022 Piaman Market.
 
 
 

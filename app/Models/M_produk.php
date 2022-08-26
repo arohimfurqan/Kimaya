@@ -12,7 +12,7 @@ class M_produk extends Model
     protected $primaryKey = 'id_produk';
     protected $returnType = 'object';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama_produk', 'deskripsi', 'qty', 'brand_id', 'kategori_id', 'harga', 'foto_produk', 'status_produk'];
+    protected $allowedFields = ['nama_produk', 'deskripsi', 'qty', 'brand_id', 'kategori_id', 'harga', 'foto_produk', 'status_produk','produk_user_id'];
     protected $useAutoIncrement = true;
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';

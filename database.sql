@@ -36,11 +36,11 @@ CREATE TABLE `biodata` (
   CONSTRAINT `FK_biodata` FOREIGN KEY (`provinsi_id`) REFERENCES `tb_provinsi` (`id`),
   CONSTRAINT `FK_biodata2` FOREIGN KEY (`kota_id`) REFERENCES `tb_kota_kabupaten` (`id`),
   CONSTRAINT `FK_biodata7` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `biodata` */
 
-insert  into `biodata`(`id_biodata`,`user_id`,`alamat`,`no_hp`,`provinsi_id`,`kota_id`,`jenis_kelamin`,`tanggal_lahir`) values (1,2,'veteran','123456789012',13,1371,NULL,NULL),(2,3,NULL,NULL,NULL,NULL,NULL,NULL),(3,4,'jalan veteran no 16 b',NULL,13,1371,NULL,NULL),(4,1,'www',NULL,13,1371,NULL,NULL),(5,6,'jalan veteran',NULL,NULL,NULL,NULL,NULL);
+insert  into `biodata`(`id_biodata`,`user_id`,`alamat`,`no_hp`,`provinsi_id`,`kota_id`,`jenis_kelamin`,`tanggal_lahir`) values (4,1,'www',NULL,13,1371,NULL,NULL),(10,11,'Padang',NULL,13,1371,NULL,NULL),(11,12,'jln. karet no 3 padang pasir padang barat','0989897',13,1371,NULL,NULL),(12,13,'jln haruda',NULL,13,1371,NULL,NULL),(13,14,'Jln. garuda no 75 padang koto tangah','434353535',13,1371,NULL,NULL),(14,15,'padang',NULL,13,1371,NULL,NULL),(15,16,NULL,NULL,NULL,NULL,NULL,NULL),(16,17,'jalan veteran no 16 b',NULL,13,1371,NULL,NULL),(17,18,'veteran 16','123456789012',13,1371,NULL,NULL);
 
 /*Table structure for table `brand` */
 
@@ -51,11 +51,11 @@ CREATE TABLE `brand` (
   `nama_brand` varchar(45) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_brand`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `brand` */
 
-insert  into `brand`(`id_brand`,`nama_brand`,`user_id`) values (2,'Adidas 2',4);
+insert  into `brand`(`id_brand`,`nama_brand`,`user_id`) values (5,'Nike',11),(6,'Adidas',11),(7,'Lala',11),(8,'Scarlett',13);
 
 /*Table structure for table `foto_lain_produk` */
 
@@ -68,11 +68,11 @@ CREATE TABLE `foto_lain_produk` (
   PRIMARY KEY (`id_foto_lain`),
   KEY `FK_foto_lain_produk` (`produk_id`),
   CONSTRAINT `FK_foto_lain_produk` FOREIGN KEY (`produk_id`) REFERENCES `produk` (`id_produk`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `foto_lain_produk` */
 
-insert  into `foto_lain_produk`(`id_foto_lain`,`foto_lain`,`produk_id`) values (16,'JobMatch.png',16),(17,'WhatsApp Image 2022-02-21 at 19.28.46.jpeg',16),(18,'UNP-LINK (1).png',17),(19,'kepri2.jpg',17),(20,'kepri.jpg',17);
+insert  into `foto_lain_produk`(`id_foto_lain`,`foto_lain`,`produk_id`) values (26,'th.jpg',24),(27,'3.jpg',25),(28,'2.jpg',26),(29,'gambar 2.jpg',27),(30,'gambar 3.jpg',28),(31,'2fdeb4006aa9856a8157123227d1d6a2.jpg',29);
 
 /*Table structure for table `kategori` */
 
@@ -83,11 +83,11 @@ CREATE TABLE `kategori` (
   `nama_kategori` varchar(50) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `kategori` */
 
-insert  into `kategori`(`id_kategori`,`nama_kategori`,`user_id`) values (1,'Bantal 2',4);
+insert  into `kategori`(`id_kategori`,`nama_kategori`,`user_id`) values (8,'Kecantikan/Kosmetik',11),(9,'Sepatu Pria',11),(10,'srssd',11),(11,'Sepatu Pria 2',11),(12,'Sepatu Pria 3',11),(13,'Body Lation',13);
 
 /*Table structure for table `keranjang` */
 
@@ -108,11 +108,11 @@ CREATE TABLE `keranjang` (
   KEY `FK_keranjang8` (`user_id`),
   CONSTRAINT `FK_keranjang` FOREIGN KEY (`penjual_id`) REFERENCES `users` (`id_user`),
   CONSTRAINT `FK_keranjang8` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `keranjang` */
 
-insert  into `keranjang`(`id_keranjang`,`user_id`,`status`,`tanggal_pesan`,`tanggal_pengiriman`,`tanggal_terima`,`tanggal_pembayaran`,`bukti_pembayaran`,`penjual_id`) values (8,2,'Pengiriman','2022-08-15 02:27:11','2022-08-15 02:27:44',NULL,'2022-08-15 02:27:20','1660548440db.jpeg',4);
+insert  into `keranjang`(`id_keranjang`,`user_id`,`status`,`tanggal_pesan`,`tanggal_pengiriman`,`tanggal_terima`,`tanggal_pembayaran`,`bukti_pembayaran`,`penjual_id`) values (30,18,'Keranjang',NULL,NULL,NULL,NULL,NULL,17),(31,18,'Keranjang',NULL,NULL,NULL,NULL,NULL,15);
 
 /*Table structure for table `keranjang_produk` */
 
@@ -127,11 +127,11 @@ CREATE TABLE `keranjang_produk` (
   PRIMARY KEY (`produk_keranjang_id`),
   KEY `FK_keranjang_produk` (`keranjang_id`),
   CONSTRAINT `FK_keranjang_produk` FOREIGN KEY (`keranjang_id`) REFERENCES `keranjang` (`id_keranjang`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `keranjang_produk` */
 
-insert  into `keranjang_produk`(`produk_keranjang_id`,`keranjang_id`,`produk_id`,`jumlah`,`harga_keranjang`) values (13,8,16,1,10000);
+insert  into `keranjang_produk`(`produk_keranjang_id`,`keranjang_id`,`produk_id`,`jumlah`,`harga_keranjang`) values (36,30,29,1,10000),(37,31,28,1,50000),(40,31,27,1,10000);
 
 /*Table structure for table `produk` */
 
@@ -155,11 +155,11 @@ CREATE TABLE `produk` (
   CONSTRAINT `FK_produk` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_produk2` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id_brand`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_produk26` FOREIGN KEY (`produk_user_id`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `produk` */
 
-insert  into `produk`(`id_produk`,`nama_produk`,`deskripsi`,`qty`,`brand_id`,`kategori_id`,`harga`,`foto_produk`,`status_produk`,`produk_user_id`) values (16,'Acer 142 inch','<p>oke lah pokoknya</p>',2,2,1,10000,'16489679221585878313akatrustMiku mini.png','Aktif',4),(17,'Asus 14 Inch','<p>oke</p>',2,2,1,100000,'1649336561WhatsApp Image 2022-02-21 at 19.28.46.jpeg','Aktif',1);
+insert  into `produk`(`id_produk`,`nama_produk`,`deskripsi`,`qty`,`brand_id`,`kategori_id`,`harga`,`foto_produk`,`status_produk`,`produk_user_id`) values (24,'Nike','<p>Cocok dipakai Pria dan Wanita</p>',10,5,9,100000,'1661140129th.jpg','Aktif',11),(25,'Facial Wash','<p>Good</p>',10,8,13,75000,'16612286863.jpg','Aktif',13),(26,'Serum Whitening','<p>Mntp</p>',10,8,13,75000,'16612287501.jpg','Aktif',13),(27,'Kripik Balado','<p>Enak, Murah</p>',10,7,10,10000,'1661394972gambar 1.jpg','Aktif',15),(28,'bengbeng','<p>Murah</p>',10,7,10,50000,'1661395020gambar 4.jpg','Aktif',15),(29,'cimory','<p>cimory</p>',96,5,9,10000,'16614277262fdeb4006aa9856a8157123227d1d6a2.jpg','Aktif',17);
 
 /*Table structure for table `tb_kota_kabupaten` */
 
@@ -205,12 +205,16 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `role` varchar(25) NOT NULL,
   `foto_profile` text DEFAULT NULL,
+  `ktp` text DEFAULT NULL,
+  `siup` text DEFAULT NULL,
+  `situ` text DEFAULT NULL,
+  `statuss` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id_user`,`username`,`nama`,`password`,`email`,`role`,`foto_profile`) values (1,'superadmin','Super Admin','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim98@gmail.com','superadmin',NULL),(2,'rohim@gmail.com','arohim furqan','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim@gmail.com','Customer',NULL),(3,'lovela97famazera@gmail.com','lovela','$2y$10$tJEBb6BNmj1fG6mNquWHie8VhoAIVjjBNr6ent3nLxejwoaP9EoUG','lovela97famazera@gmail.com','Customer',NULL),(4,'toko1','Toko 1','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','him@gmail.com','admin',NULL),(5,'toko2','Toko 2','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','toko2@gmail.com','admin',NULL),(6,'argenesia@gmail.com','argenesia','$2y$10$/iXCTxKi1NXqMpm35b.2W.n/Pi046pT4WhVyq4EjpKnwOgIq4nAj.','argenesia@gmail.com','admin',NULL);
+insert  into `users`(`id_user`,`username`,`nama`,`password`,`email`,`role`,`foto_profile`,`ktp`,`siup`,`situ`,`statuss`) values (1,'superadmin','Super Admin','$2y$10$gummw8UZ0MNQ6E9nTmCSve3nB42w7Ds5LB2x39EupK6Xs768pQCEO','rohim98@gmail.com','superadmin',NULL,NULL,NULL,NULL,'Aktif'),(7,'aya@gmail.com','Fitri Aulia','$2y$10$nQONwytQz4PDRxERVr/YX.mKT4Z1PdzhEn.VYiqHcHrbf4k7ORSXy','aya@gmail.com','Customer',NULL,NULL,NULL,NULL,'Aktif'),(8,'Felix@gmail.com','Felix','$2y$10$kC2cfAi4cDJxPk4YCp4dReFwwY/Ir98Bz0bmt2jMqvOxEmN/cO7gG','Felix@gmail.com','admin',NULL,NULL,NULL,NULL,'Aktif'),(10,'tes@gmail.com','tes tes','$2y$10$M.be82kffe7EudO.nsJUDOBVbrJPxZG8OrLLQKQawWs1aWcxbv2/G','tes@gmail.com','admin',NULL,NULL,NULL,NULL,'Aktif'),(11,'namjoon@gmail.com','Kim Namjoon','$2y$10$CvUyexUErPAfebVfpMP8P.2owaKYdZUD1WCEE1l0JmWc2hzvlS4dS','namjoon@gmail.com','admin',NULL,NULL,NULL,NULL,'Aktif'),(12,'ilham@gmail.com','Muhammad Ilham','$2y$10$lmlxVueLOYNnw5cTK9l8m.lC/JuE.5IzNvs4YoCenmaWvxnKDb6tO','ilham@gmail.com','Customer',NULL,NULL,NULL,NULL,'Aktif'),(13,'fitriaulia@gmail.com','Fitri Aulia','$2y$10$x421.fl1Pq1tcLWISJiLbuOy.FRVAnzFUeZJi0/BsPP2x.5xYM5dq','fitriaulia@gmail.com','admin',NULL,NULL,NULL,NULL,'Aktif'),(14,'nelly@gmail.com','Nelly Novia','$2y$10$xE8.JmCMTWn3mzDFQZo.6u7xTlSl5isyUBEtCw2OgKHKgUJWFNBhu','nelly@gmail.com','Customer',NULL,NULL,NULL,NULL,'Aktif'),(15,'aulia@gmail.com','Aulia','$2y$10$WxnrgMWBxbRcdEz9shD8DeC.UxtoG2VqoOUuShgURdb/VzWdlwN7S','aulia@gmail.com','admin',NULL,NULL,NULL,NULL,'Aktif'),(16,'il@gmail.com','Ilham','$2y$10$1vHhZAAfDdLrEmECTyw0z.MC2vBlWjLzNp6QUrndgP.ub.t9Wi30C','il@gmail.com','Customer',NULL,NULL,NULL,NULL,'Aktif'),(17,'rohim90@gmail.com','Rohim Shop','$2y$10$cy2tuP3RE3/9xodKHTpLb.1wIkmEC618y4mXK8GAI7yfQ.fmvcoVm','rohim90@gmail.com','admin',NULL,'1661421146db.jpeg','1661421146Input Dan Ouput.pdf','1661421146TABEL POIN TURNAMEN INTERNAL PB JAYANUSA.pdf','Aktif'),(18,'lovela@gmail.com','lovela','$2y$10$at2sEwycBvfVVCQSA37wOuSpwCx/C.EskZUQqd7TOVYgC31vaIlne','lovela@gmail.com','Customer',NULL,NULL,NULL,NULL,'Aktif');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

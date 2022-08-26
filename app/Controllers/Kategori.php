@@ -41,6 +41,7 @@ class Kategori extends BaseController
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'nama_kategori' => $this->request->getPost('nama_kategori'),
+                'user_id'=> session('id')
             ];
             if ($this->Model->save($data)) {
                 $validasi = [
@@ -71,6 +72,8 @@ class Kategori extends BaseController
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'nama_kategori' => $this->request->getPost('nama_kategori'),
+                'user_id'=> session('id')
+
             ];
             if ($this->Model->update($id, $data)) {
                 $validasi = [

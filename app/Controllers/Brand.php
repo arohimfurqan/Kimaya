@@ -41,6 +41,8 @@ class Brand extends BaseController
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'nama_brand' => $this->request->getPost('nama_brand'),
+                'user_id' => session('id')
+
             ];
             if ($this->Model->save($data)) {
                 $validasi = [
@@ -71,6 +73,8 @@ class Brand extends BaseController
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'nama_brand' => $this->request->getPost('nama_brand'),
+                'user_id' => session('id')
+
             ];
             if ($this->Model->update($id, $data)) {
                 $validasi = [

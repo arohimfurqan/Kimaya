@@ -32,7 +32,8 @@ class Front extends BaseController
   public function index()
   {
     $data =
-      ['produk' => $this->Model_produk->where('status_produk', 'Aktif')->limit(8)->orderBy('id_produk', 'DESC')->findAll()];
+      ['user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->findAll()];
+    // ['produk' => $this->Model_produk->where('status_produk', 'Aktif')->limit(8)->orderBy('id_produk', 'DESC')->findAll()];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/index', $data)
@@ -46,15 +47,66 @@ class Front extends BaseController
 
     $data =
       [
-        'produk' => $this->Model_produk->where('status_produk', 'Aktif')->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
-        'pager' => $this->Model_produk->pager
+        'user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->paginate(12, 'product'),
+        'pager' => $this->Model_user->pager
       ];
+    // [
+    //   'produk' => $this->Model_produk->where('status_produk', 'Aktif')->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
+    //   'pager' => $this->Model_produk->pager
+    // ];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/produk', $data)
     ];
 
     return view('layout/front/main', $template);
+  }
+
+
+  public function cari_produk()
+  {
+    if ($this->request->getMethod() === 'post') {
+      $namaproduk = $this->request->getPost('produk');
+
+
+      $data =
+        [
+          'produk' => $this->Model_produk->like('nama_produk', $namaproduk)->where('status_produk', 'Aktif')->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
+          'pager' => $this->Model_produk->pager,
+          'pencarian' => $namaproduk
+        ];
+      $template = [
+        // 'menu' => view('layout/front/menu'),
+        'isi' => view('front/produk_cari', $data)
+      ];
+
+      return view('layout/front/main', $template);
+    }
+  }
+
+
+  public function cari_toko()
+  {
+    if ($this->request->getMethod() === 'post') {
+      $namatoko = $this->request->getPost('toko');
+
+
+      $data =
+        [
+          'user' => $this->Model_user->like('nama', $namatoko)->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->paginate(12, 'product'),
+          'pager' => $this->Model_user->pager,
+          'pencarian' => $namatoko,
+
+
+
+        ];
+      $template = [
+        // 'menu' => view('layout/front/menu'),
+        'isi' => view('front/toko_cari', $data)
+      ];
+
+      return view('layout/front/main', $template);
+    }
   }
   public function view_product($id)
   {
@@ -71,6 +123,26 @@ class Front extends BaseController
     return view('layout/front/main', $template);
   }
 
+
+  public function view_toko($id)
+  {
+
+    $user =   $this->Model_user->select('users.*,biodata.*,tb_kota_kabupaten.nama as nama_kota,users.nama as nama_user,tb_provinsi.nama as nama_provinsi')->join('biodata', 'biodata.user_id=users.id_user')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->join('tb_provinsi', 'tb_provinsi.id=provinsi_id')->where('id_user', $id)->first();
+
+    $data = [
+      'user' => $user,
+      'produk' => $this->Model_produk->where('status_produk', 'Aktif')->where('produk_user_id', $user->id_user)->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
+      'pager' => $this->Model_produk->pager
+    ];
+
+    $template = [
+      // 'menu' => view('layout/front/menu'),
+      'isi' => view('front/view_toko', $data)
+    ];
+
+    return view('layout/front/main', $template);
+  }
+
   public function login()
   {
     if ($this->request->getMethod() === 'post') {
@@ -78,7 +150,7 @@ class Front extends BaseController
       $model = $this->Model_user;
       $username = $this->request->getPost('username');
       $password = $this->request->getPost('password');
-      $data = $model->where('username', $username)->first();
+      $data = $model->where('username', $username)->where('statuss', 'Aktif')->first();
       if ($data) {
         $pass = $data->password;
         $verify_pass = password_verify($password, $pass);
@@ -100,7 +172,7 @@ class Front extends BaseController
         }
       } else {
         echo ("<script LANGUAGE='JavaScript'>
-                window.alert('Username Tidak Terdaftar !');
+                window.alert('Username Tidak Terdaftar atau belum dikonfirmasi admin !');
                 window.history.back();
                 </script>");
         // return redirect()->to(base_url('/front/login'));
@@ -126,13 +198,14 @@ class Front extends BaseController
           'email' => $this->request->getPost('email'),
           'role' => 'Customer',
           'password' => $password,
+          'statuss' => 'Tidak Aktif'
         ];
 
         if ($this->Model_user->save($data)) {
           $biodata = ['user_id' => $this->Model_user->getInsertID()];
           $this->Model_biodata->save($biodata);
           echo ("<script>
-          window.alert('Berhasil Registrasi silahkan login');
+          window.alert('Berhasil Registrasi harap tunggu dikonfirmasi admin');
           window.location.href = '" . BASE  . "/front/login';
           </script>");
         } else {
@@ -180,9 +253,9 @@ class Front extends BaseController
     $jumlah = $this->request->getPost('qty');
     $iduser = session('id2');
 
-
-    $carikeranjanglama = $this->Model_keranjang->where(['user_id' => $iduser, 'status' => 'Keranjang'])->first();
     $cariproduk = $this->Model_produk->where(['id_produk' => $id])->first();
+
+    $carikeranjanglama = $this->Model_keranjang->where(['user_id' => $iduser, 'status' => 'Keranjang', 'penjual_id' => $cariproduk->produk_user_id])->first();
 
 
 
@@ -190,6 +263,7 @@ class Front extends BaseController
       // echo $carikeranjanglama->id_keranjang;
       // echo $cariproduk->produk_user_id;
       // die;
+
       if ($carikeranjanglama->penjual_id == $cariproduk->produk_user_id) {
         $cariproduk = $this->Model_produk->where('id_produk', $id)->first();
         $keranjang_produk = [
@@ -210,10 +284,29 @@ class Front extends BaseController
         window.history.back();
         </script>");
       } else {
-        echo ("<script>
-        window.alert('Toko dikeranjang anda berbeda dengan yang akan di tambahkan silahkan hapus barang tersebut!!!');
-        window.history.back();
-        </script>");
+        $keranjang = [
+          'user_id' => $iduser,
+          'status' => 'Keranjang',
+          'penjual_id' => $cariproduk->produk_user_id
+        ];
+
+        if ($this->Model_keranjang->save($keranjang)) {
+          $cariproduk = $this->Model_produk->where('id_produk', $id)->first();
+          $keranjang_produk = [
+            'keranjang_id' => $this->Model_keranjang->getInsertID(),
+            'produk_id' => $id,
+            'jumlah' => $jumlah,
+            'harga_keranjang' => $cariproduk->harga,
+          ];
+          $this->Model_keranjang_produk->save($keranjang_produk);
+          echo ("<script>
+          window.alert('Berhasil menambahkan ke keranjang');
+          window.history.back();
+          </script>");
+        } else {
+          print_r($this->Model_keranjang->errors());
+          die;
+        }
       }
     } else {
       $keranjang = [
@@ -244,7 +337,9 @@ class Front extends BaseController
 
   public function cart()
   {
-    $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->join('users', 'produk_user_id=id_user')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
+    // $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->join('users', 'produk_user_id=id_user')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
+
+    $cart = $this->Model_keranjang->join('users', 'penjual_id=id_user')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
 
     // print_r($cart);
     // die;
@@ -269,11 +364,21 @@ class Front extends BaseController
 
   public function hapusprodukkeranjang($id)
   {
-    $this->Model_keranjang_produk->delete($id);
+    $krpro = $this->Model_keranjang_produk->where('produk_keranjang_id', $id)->first();
+    $idkerj = $krpro->keranjang_id;
+    if ($this->Model_keranjang_produk->delete($id)) {
+      // echo $idkerj;die;
+      $cari = $this->Model_keranjang_produk->where('keranjang_id', $idkerj)->first();
+      if ($cari) {
+      } else {
+        $this->Model_keranjang->delete($idkerj);
+      }
+    }
+
     return  redirect()->to('/front/cart');
   }
 
-  public function checkout()
+  public function checkout($keranjang)
   {
 
     $cariuserbio = $this->Model_user->join('biodata', 'user_id=id_user')->where('id_user', session('id2'))->first();
@@ -289,11 +394,11 @@ class Front extends BaseController
 
       $this->Model_biodata->update($this->request->getPost('id_biodata'), ['alamat' => $this->request->getPost('alamat'), 'no_hp' => $this->request->getPost('nohp'), 'provinsi_id' => $this->request->getPost('provinsi'), 'kota_id' => $this->request->getPost('kota')]);
 
-      return redirect()->to('front/purchase');
+      return redirect()->to('front/purchase/' . $keranjang);
     }
     // print_r($cariuserbio2);
     // die;
-    $data = ['biodata' => $cariuserbio2];
+    $data = ['biodata' => $cariuserbio2, 'keranjang' => $keranjang];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/checkout', $data)
@@ -332,15 +437,15 @@ class Front extends BaseController
     echo json_encode($data);
   }
 
-  public function purchase()
+  public function purchase($keranjang)
   {
 
 
     $cariuserbio2 = $this->Model_user->select('biodata.*,users.*,tb_provinsi.nama as nama_provinsi,tb_kota_kabupaten.nama as nama_kota,tb_provinsi.id as id_provinsi,tb_kota_kabupaten.id as id_kota,users.nama as nama_user')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('id_user', session('id2'))->first();
 
-    $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->where('user_id', session('id2'))->where('status', 'Keranjang')->findall();
+    $cart = $this->Model_keranjang->join('keranjang_produk', 'id_keranjang=keranjang_id')->join('produk', 'id_produk=produk_id')->where('user_id', session('id2'))->where('status', 'Keranjang')->where('id_keranjang', $keranjang)->findall();
 
-    $cart2 = $this->Model_keranjang->where('user_id', session('id2'))->where('status', 'Keranjang')->first();
+    $cart2 = $this->Model_keranjang->where('user_id', session('id2'))->where('status', 'Keranjang')->where('id_keranjang', $keranjang)->first();
 
 
 
@@ -352,7 +457,7 @@ class Front extends BaseController
     }
     // print_r($cariuserbio2);
     // die;
-    $data = ['biodata' => $cariuserbio2, 'cart' => $cart, 'cart2' => $cart2];
+    $data = ['biodata' => $cariuserbio2, 'cart' => $cart, 'cart2' => $cart2, 'keranjang' => $keranjang];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/checkout_2', $data)

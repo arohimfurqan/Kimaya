@@ -12,7 +12,7 @@ class M_kategori extends Model
     protected $primaryKey = 'id_kategori';
     protected $returnType = 'object';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama_kategori'];
+    protected $allowedFields = ['nama_kategori','user_id'];
     protected $useAutoIncrement = true;
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';

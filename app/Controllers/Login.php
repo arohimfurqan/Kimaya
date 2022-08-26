@@ -27,7 +27,7 @@ class Login extends BaseController
       $model = $this->Model;
       $username = $this->request->getPost('username');
       $password = $this->request->getPost('password');
-      $data = $model->where('username', $username)->first();
+      $data = $model->where('username', $username)->where('statuss', 'Aktif')->first();
       if ($data) {
         $pass = $data->password;
         $verify_pass = password_verify($password, $pass);
@@ -42,13 +42,18 @@ class Login extends BaseController
           $session->set($ses_data);
           return redirect()->to(base_url('home'));
         } else {
-
-          echo '<script>alert("Username atau Password Anda Salah");</script>';
-          return redirect()->to(base_url('login'));
+          echo ("<script>
+          window.alert('Username atau Password Anda Salah');
+          window.location.href = '" . BASE  . "/login';
+          </script>");
         }
       } else {
-        echo '<script>alert("Username Tidak Terdaftar!");</script>';
-        return redirect()->to(base_url('login'));
+        echo ("<script>
+        window.alert('Username Tidak Terdaftar atau belum dikonfirmasi admin!');
+        window.location.href = '" . BASE  . "/login';
+        </script>");
+        // echo '<script>alert("Username Tidak Terdaftar atau belum dikonfirmasi admin!");</script>';
+        // return redirect()->to(base_url('login'));
         // $session->setFlashdata('msg', 'Username Tidak Terdaftar!');
         // return redirect()->to(base_url('C_login'));
       }
@@ -65,6 +70,14 @@ class Login extends BaseController
   {
     if ($this->request->getMethod() === 'post') {
       // $session = session();
+      $iktp = $this->request->getFile('ktp');
+      $ktp = time() . $iktp->getClientName();
+
+      $isiup = $this->request->getFile('siup');
+      $siup = time() . $isiup->getClientName();
+
+      $isitu = $this->request->getFile('situ');
+      $situ = time() . $isitu->getClientName();
 
       $nama = $this->request->getPost('nama');
       $email = $this->request->getPost('email');
@@ -80,14 +93,22 @@ class Login extends BaseController
         'password' => password_hash($password, PASSWORD_DEFAULT),
         'email' => $email,
         'role' => 'admin',
+        'ktp' => $ktp,
+        'siup' => $siup,
+        'situ' => $situ,
+        'statuss' => 'Tidak Aktif',
       ];
       if ($this->Model->save($user)) {
+        $iktp->move('uploads', $ktp);
+        $isiup->move('uploads', $siup);
+        $isitu->move('uploads', $situ);
+
         $biodata = [
           'user_id' => $this->Model->getInsertID(),
           'alamat' => $alamat,
-          'nohp' => $nohp,
-          'provinsi' => $provinsi,
-          'kota' => $kota,
+          'no_hp' => $nohp,
+          'provinsi_id' => $provinsi,
+          'kota_id' => $kota,
         ];
         $this->Model_biodata->save($biodata);
         echo ("<script>
@@ -115,5 +136,56 @@ class Login extends BaseController
 
       return view('layout/main_login', $template);
     }
+  }
+
+  public function data_user()
+  {
+
+    $data = [
+      'user' =>  $this->Model->where('statuss', 'Tidak Aktif')->findAll()
+    ];
+
+    $template = [
+      'isi' => view('produk/data_user', $data)
+    ];
+    return view('layout/main', $template);
+  }
+
+  public function konfirmasi($id)
+  {
+    $data = ['statuss' => 'Aktif'];
+    $this->Model->update($id, $data);
+    echo ("<script>
+    window.alert('Berhasil konfirmasi user');
+    window.location.href = '" . BASE  . "/login/data_user';
+    </script>");
+  }
+
+
+  public function data_pembeli()
+  {
+
+    $data = [
+      'user' =>  $this->Model->select('users.*,biodata.*,tb_provinsi.*,tb_kota_kabupaten.*, tb_provinsi.nama as nama_provinsi, tb_kota_kabupaten.nama as nama_kota,users.nama as nama_user')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('role', 'Customer')->findAll()
+    ];
+
+    $template = [
+      'isi' => view('produk/data_pembeli', $data)
+    ];
+    return view('layout/main', $template);
+  }
+
+
+  public function data_penjual()
+  {
+
+    $data = [
+      'user' =>  $this->Model->select('users.*,biodata.*,tb_provinsi.*,tb_kota_kabupaten.*, tb_provinsi.nama as nama_provinsi, tb_kota_kabupaten.nama as nama_kota,users.nama as nama_user')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('role', 'admin')->findAll()
+    ];
+
+    $template = [
+      'isi' => view('produk/data_penjual', $data)
+    ];
+    return view('layout/main', $template);
   }
 }
