@@ -169,8 +169,8 @@ class Email extends BaseConfig
     public $DSN = false;
     public $protocol = 'smtp';
     public $SMTPHost = 'smtp.gmail.com';
-    public $SMTPUser = '17sayahim@gmail.com';
-    public $SMTPPass = 'azlgqjvujkunnrsx';
+    public $SMTPUser = '';
+    public $SMTPPass = '';
     public $SMTPPort = 465;
     public $SMTPCrypto = 'ssl';
     public $mailType = 'html';
