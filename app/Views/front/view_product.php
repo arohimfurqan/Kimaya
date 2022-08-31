@@ -97,7 +97,7 @@
                         <div class="col-6 col-md-4">
                           <div class="mb-8 d-flex flex-column">
                             <span class="text-dark font-weight-bold mb-4">Nama Toko</span>
-                            <span class="text-muted font-weight-bolder font-size-lg"><?= $produk->nama_user ?></span>
+                            <a href="<?= BASE ?>/front/view_toko/<?= $produk->produk_user_id ?>" class="text-muted font-weight-bolder font-size-lg"><?= $produk->nama_user ?></a>
                           </div>
                         </div>
                         <div class="col-6 col-md-4">

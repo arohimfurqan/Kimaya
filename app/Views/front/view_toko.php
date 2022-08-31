@@ -175,7 +175,9 @@
                           <!--begin::Details-->
                           <div class="text-center mt-5 mb-md-0 mb-lg-5 mb-md-0 mb-lg-5 mb-lg-0 mb-5 d-flex flex-column">
                             <a href="#" class="font-size-h5 font-weight-bolder text-dark-75 text-hover-primary mb-1"><?= $prd->nama_produk ?></a>
-                            <span class="font-size-lg"><?= substr(strip_tags($prd->deskripsi), 0, 100) ?>...</span>
+                            <span class="font-size-lg">Kategori(<?= $prd->nama_kategori  ?>)</span>
+                            <span class="font-size-lg">Rp. <?= number_format($prd->harga)  ?></span>
+                            <span class="font-size-lg">Toko : <?= $prd->nama ?></span>
                           </div>
                           <!--end::Details-->
                         </div>

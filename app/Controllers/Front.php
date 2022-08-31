@@ -5,8 +5,11 @@ namespace App\Controllers;
 use App\Models\M_biodata;
 use App\Models\M_keranjang;
 use App\Models\M_keranjang_produk;
+use App\Models\M_kota;
 use App\Models\M_produk;
+use App\Models\M_tb_provinsi;
 use App\Models\M_user;
+use CodeIgniter\Email\Email;
 
 class Front extends BaseController
 {
@@ -15,25 +18,32 @@ class Front extends BaseController
   protected $Model_biodata;
   protected $Model_keranjang;
   protected $Model_keranjang_produk;
+  protected $Model_provinsi;
+  protected $Model_kota;
   protected $Model_user;
   protected $validation;
   protected $db;
+  private $url = "https://api.rajaongkir.com/starter/";
+  private $apiKey = "dc6aa80e6a3c345e1ce1b4407eaa18f5";
 
   public function __construct()
   {
     $this->Model_produk = new M_produk();
     $this->Model_user = new M_user();
     $this->Model_biodata = new M_biodata();
+    $this->Model_provinsi = new M_tb_provinsi();
+    $this->Model_kota = new M_kota();
     $this->Model_keranjang = new M_keranjang();
     $this->Model_keranjang_produk = new M_keranjang_produk();
     $this->validation =  \Config\Services::validation();
     $this->db = \Config\database::connect();
+    $this->email = \Config\Services::email();
   }
   public function index()
   {
     $data =
-      ['user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->findAll()];
-    // ['produk' => $this->Model_produk->where('status_produk', 'Aktif')->limit(8)->orderBy('id_produk', 'DESC')->findAll()];
+      // ['user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->findAll()];
+      ['produk' => $this->Model_produk->join('kategori', 'id_kategori=kategori_id')->join('users', 'produk_user_id=id_user')->where('status_produk', 'Aktif')->limit(8)->orderBy('id_produk', 'DESC')->findAll()];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/index', $data)
@@ -46,14 +56,14 @@ class Front extends BaseController
   {
 
     $data =
+      // [
+      //   'user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->paginate(12, 'product'),
+      //   'pager' => $this->Model_user->pager
+      // ];
       [
-        'user' => $this->Model_user->where('statuss', 'Aktif')->where('role', 'admin')->orderBy('id_user', 'DESC')->paginate(12, 'product'),
-        'pager' => $this->Model_user->pager
+        'produk' => $this->Model_produk->join('kategori', 'id_kategori=kategori_id')->join('users', 'produk_user_id=id_user')->where('status_produk', 'Aktif')->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
+        'pager' => $this->Model_produk->pager
       ];
-    // [
-    //   'produk' => $this->Model_produk->where('status_produk', 'Aktif')->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
-    //   'pager' => $this->Model_produk->pager
-    // ];
     $template = [
       // 'menu' => view('layout/front/menu'),
       'isi' => view('front/produk', $data)
@@ -131,7 +141,7 @@ class Front extends BaseController
 
     $data = [
       'user' => $user,
-      'produk' => $this->Model_produk->where('status_produk', 'Aktif')->where('produk_user_id', $user->id_user)->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
+      'produk' => $this->Model_produk->join('kategori', 'id_kategori=kategori_id')->join('users', 'produk_user_id=id_user')->where('status_produk', 'Aktif')->where('produk_user_id', $user->id_user)->orderBy('id_produk', 'DESC')->paginate(12, 'product'),
       'pager' => $this->Model_produk->pager
     ];
 
@@ -543,5 +553,272 @@ class Front extends BaseController
     ];
 
     return view('layout/front/main', $template);
+  }
+
+
+  private function rajaongkir($method, $id_province = null)
+  {
+
+    $endPoint = $this->url . $method;
+
+    if ($id_province != null) {
+      $endPoint = $endPoint . "?province=" . $id_province;
+    }
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $endPoint,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 30,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "GET",
+      CURLOPT_HTTPHEADER => array(
+        "key: " . $this->apiKey
+      ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    return $response;
+  }
+
+  private function rajaongkircost($origin, $destination, $weight, $courier)
+  {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 30,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS => "origin=" . $origin . "&destination=" . $destination . "&weight=" . $weight . "&courier=" . $courier,
+      CURLOPT_HTTPHEADER => array(
+        "content-type: application/x-www-form-urlencoded",
+        "key: " . $this->apiKey,
+      ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    return $response;
+  }
+
+
+  public function rajaongkirs()
+  {
+    $prov = json_decode($this->rajaongkir('province'), true);
+    // foreach ($prov as $row) {
+    //   echo '<br>' . $row['rajaongkir']['results'][0]['province_id'];
+    // }
+    foreach ($prov['rajaongkir']['results'] as $row) {
+      $cari =  $this->Model_provinsi->where('id', $row['province_id'])->first();
+
+      if ($cari) {
+      } else {
+        $this->Model_provinsi->insert(['id' => $row['province_id'], 'nama' => $row['province']]);
+      }
+    }
+    $kota = json_decode($this->rajaongkir('city'), true);
+    foreach ($kota['rajaongkir']['results'] as $row2) {
+      $cari2 =  $this->Model_kota->where('id', $row2['city_id'])->first();
+
+      if ($cari2) {
+      } else {
+        $this->Model_kota->insert(['id' => $row2['city_id'], 'nama' => $row2['city_name'], 'id_provinsi' => $row2['province_id']]);
+      }
+    }
+    // $carikota = $this->Model_kota->where('id',)
+    // echo $this->rajaongkir('province');
+    // print_r($kota);
+  }
+
+  public function kurirdata()
+  {
+    $tujuan = $this->request->getGet('kota');
+    $asal = $this->request->getGet('asal');
+    $kurir = $this->request->getGet('kurir');
+    $berat = $this->request->getGet('berat');
+    // echo $tujuan;
+    $cost = json_decode($this->rajaongkircost($asal, $tujuan, $berat, $kurir), TRUE);
+    if (!empty($cost['rajaongkir']['results'])) {
+      $data['data'] = $cost['rajaongkir']['results'][0]['costs'];
+      return  view('front/kurir', $data);
+    } else {
+      echo '12';
+    }
+  }
+  public function profil()
+  {
+    $cariuserbio = $this->Model_user->join('biodata', 'user_id=id_user')->where('id_user', session('id2'))->first();
+
+    if ($cariuserbio->provinsi_id == NULL || $cariuserbio->kota_id == NULL || $cariuserbio->kota_id == '' || $cariuserbio->provinsi_id == '' || $cariuserbio->kota_id == 0 || $cariuserbio->provinsi_id == 0) {
+      $cariuserbio2 = $this->Model_user->join('biodata', 'user_id=id_user')->where('id_user', session('id2'))->first();
+    } else {
+      $cariuserbio2 = $this->Model_user->select('biodata.*,users.*,tb_provinsi.nama as nama_provinsi,tb_kota_kabupaten.nama as nama_kota,tb_provinsi.id as id_provinsi,tb_kota_kabupaten.id as id_kota')->join('biodata', 'user_id=id_user')->join('tb_provinsi', 'provinsi_id=tb_provinsi.id')->join('tb_kota_kabupaten', 'kota_id=tb_kota_kabupaten.id')->where('id_user', session('id2'))->first();
+    }
+
+    if ($this->request->getMethod() === 'post') {
+      $nama = $this->request->getPost('nama');
+      $email = $this->request->getPost('email');
+      $nohp = $this->request->getPost('nohp');
+      $provinsi = $this->request->getPost('provinsi');
+      $kota = $this->request->getPost('kota');
+      $alamat = $this->request->getPost('alamat');
+      $password_baru = $this->request->getPost('password_baru');
+
+      if ($password_baru) {
+        $datauser = [
+          'nama' => $nama,
+          'username' => $email,
+          'email' => $email,
+          'password' => password_hash($password_baru, PASSWORD_DEFAULT),
+        ];
+        $biodata = [
+          'alamat' => $alamat,
+          'no_hp' => $nohp,
+          'provinsi_id' => $provinsi,
+          'kota_id' => $kota,
+        ];
+      } else {
+        $datauser = [
+          'nama' => $nama,
+          'username' => $email,
+          'email' => $email,
+        ];
+        $biodata = [
+          'alamat' => $alamat,
+          'no_hp' => $nohp,
+          'provinsi_id' => $provinsi,
+          'kota_id' => $kota,
+        ];
+      }
+      $caribiodatas = $this->Model_biodata->where('user_id', session('id2'))->first();
+      $this->Model_biodata->update($caribiodatas->id_biodata, $biodata);
+
+      if ($this->Model_user->skipValidation(true)->update(session('id2'), $datauser)) {
+        echo ("<script>
+      window.alert('Berhasil merubah data');
+      window.history.back();
+      </script>");
+      } else {
+        echo ("<script>
+        window.alert('Gagal merubah data');
+        window.history.back();
+        </script>");
+      }
+    }
+
+    $data = ['biodata' => $cariuserbio2];
+    $template = [
+
+      // 'menu' => view('layout/front/menu'),
+      'isi' => view('front/profile', $data)
+    ];
+
+    return view('layout/front/main', $template);
+  }
+
+  private function sendEmail($attachment, $to, $title, $message)
+  {
+
+    $this->email->setFrom('17sayahim@gmail.com', 'Piaman Market');
+    $this->email->setTo($to);
+
+    // $this->email->attach($attachment);
+
+    $this->email->setSubject($title);
+    $this->email->setMessage($message);
+
+    if (!$this->email->send()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public function forget()
+  {
+    if ($this->request->getMethod() === 'post') {
+      $email = $this->request->getPost('email');
+      $model = $this->Model_user;
+
+      $data = $model->where('username', $email)->where('statuss', 'Aktif')->where('role', 'Customer')->first();
+      if ($data) {
+        $str = rand(0, 255);
+        $tokens = sha1($str);
+        $model->skipValidation(true)->update($data->id_user, ['token_reset' => $tokens]);
+        //html message untuk body email
+        $message = "Email :" . $data->email . "<br>Token = " . $tokens . "<br><strong>Harap masukan token saat reset password !!!</strong><br><a href='" . BASE . "/front/reset/" . $data->id_user . "' target='_blank'>RESET DISINI</a>";
+        //memanggil private function sendEmail
+        if ($this->sendEmail('', $data->email, 'Reset Password', $message)) {
+          echo ("<script LANGUAGE='JavaScript'>
+          window.alert('Silahkan Cek inbox email anda');
+          window.history.back();
+          </script>");
+        } else {
+          echo ("<script LANGUAGE='JavaScript'>
+          window.alert('Tidak dapat mengirim email terjadi kesalahan');
+          window.history.back();
+          </script>");
+        }
+      } else {
+        echo ("<script LANGUAGE='JavaScript'>
+                window.alert('Username Tidak Terdaftar atau belum dikonfirmasi admin !');
+                window.history.back();
+                </script>");
+        // return redirect()->to(base_url('/front/login'));
+      }
+    }
+  }
+
+
+  public function reset($id)
+  {
+    if ($this->request->getMethod() === 'post') {
+      $passwordbaru = $this->request->getPost('newpassword');
+      $token = $this->request->getPost('token');
+      $model = $this->Model_user;
+
+      $data = $model->where('id_user', $id)->first();
+      if ($data) {
+        $token_db = $data->token_reset;
+
+        if ($token == $token_db) {
+          $model->skipValidation(true)->update($id, ['password' => password_hash($passwordbaru, PASSWORD_DEFAULT), 'token_reset' => '']);
+          echo ("<script LANGUAGE='JavaScript'>
+          window.alert('Berhasil mereset password');
+          window.location.href = '" . BASE . "/front/login';
+          </script>");
+        } else {
+          echo ("<script LANGUAGE='JavaScript'>
+          window.alert('Token yang anda masukan salah atau sudah kadaluwarsa');
+          window.history.back();
+          </script>");
+        }
+      } else {
+        echo ("<script LANGUAGE='JavaScript'>
+                window.alert('Username Tidak Terdaftar atau belum dikonfirmasi admin !');
+                window.history.back();
+                </script>");
+        // return redirect()->to(base_url('/front/login'));
+      }
+    }
+    $data = ['id' => $id];
+    $template = [
+      // 'menu' => view('layout/front/menu'),
+      'isi' => view('front/reset', $data)
+    ];
+
+    return view('layout/front/main_login', $template);
   }
 }

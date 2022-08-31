@@ -12,7 +12,7 @@ class M_user extends Model
   protected $primaryKey = 'id_user';
   protected $returnType = 'object';
   protected $useSoftDeletes = false;
-  protected $allowedFields = ['username', 'password', 'email', 'role', 'foto_profile', 'nama', 'ktp', 'siup', 'situ', 'statuss'];
+  protected $allowedFields = ['username', 'password', 'email', 'role', 'foto_profile', 'nama', 'ktp', 'siup', 'situ', 'statuss', 'token_reset'];
   protected $useAutoIncrement = true;
   protected $useTimestamps = false;
   protected $createdField  = 'created_at';

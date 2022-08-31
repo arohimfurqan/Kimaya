@@ -337,6 +337,7 @@ $db = Config\database::connect();
                 <span class="navi-text text-muted text-hover-primary">jm@softplus.com</span>
               </span>
             </a>
+            <a href="<?= BASE ?>/front/profil" class="btn btn-sm btn-light-success font-weight-bolder py-2 px-5">Profile</a>
             <a href="<?= BASE ?>/front/logout" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
           </div>
         </div>
@@ -611,6 +612,30 @@ $db = Config\database::connect();
         },
         // placeholder: "Select a value",
       });
+
+      $("#kurir").on("change", function() {
+        var kurir = $(this).val();
+        var berat = $("#totalberat").val();
+        var kota = $("#tujuan").val();
+        var asal = $("#asal").val();
+        $.ajax({
+            method: "get",
+            dataType: "html",
+            url: "<?= BASE ?>/front/kurirdata",
+            data: "kurir=" + kurir + "&berat=" + berat + "&kota=" + kota + "&asal=" + asal,
+
+          })
+          .done(
+            function(x) {
+
+              $("#kurirserviceinfo").html(x);
+              $("#kuririnfo").show();
+            })
+          .fail(function() {
+            $("#kurirserviceinfo").html("");
+            $("#kuririnfo").hide();
+          });
+      });
     });
 
     // kota
@@ -638,6 +663,21 @@ $db = Config\database::connect();
         }
       });
     });
+
+
+    function hitung() {
+      var diskon = $('#diskonnilai').val();
+      var total = $('#total').val();
+      var ongkir = $("#ongkir").val();
+      var bayar = (parseFloat(total) + parseFloat(ongkir));
+      if (parseFloat(ongkir) > 0) {
+        $('#scrollUp').click();
+        $("#oksimpan").show();
+      } else {
+        $("#oksimpan").hide();
+      }
+      $("#totalbayar").html(toDuit(bayar));
+    }
   </script>
   <!--end::Global Theme Bundle-->
 </body>
